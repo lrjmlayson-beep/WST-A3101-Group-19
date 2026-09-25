@@ -1,0 +1,209 @@
+/* =========================================================
+   HOME CHOICE — properties.html behavior
+   Handles: "View Details" expand/collapse, and property
+   selection for the Compare feature.
+   ========================================================= */
+
+// ---------------------------------------------------------
+// 1. PROPERTY DATA
+// In a real app this would come from an API. Keying it by the
+// same data-property-id used in the HTML means one lookup
+// (PROPERTIES[id]) gives you everything a card or the detail
+// view needs.
+// ---------------------------------------------------------
+const PROPERTIES = {
+  "dragon-tower": {
+    name: "Property Name: Dragon tower",
+    location: "Location: Quezon city, Metro Manila",
+    price: "₱35,000.00",
+    floorSize: "40 sqm",
+    listingType: "Rental",
+    bedrooms: "Studio type",
+    commute: "4km from work",
+    description: "A studio-type rental unit located in Quezon City, suitable for individuals looking for a convenient living space with access to essential amenities and transportation.",
+    featurePrice: "₱35,000.00",
+    featureBedroom: "Studio",
+    featureBathroom: "1",
+    featureKitchen: "Fully equipped",
+    featureParking: "Available",
+    featureAircon: "Available",
+    featureWifi: "Available",
+    featureFurnished: "No",
+    distanceFromWork: "4 km",
+    indoorEstablishments: "Laundry Shop, Mini school supply shop, Cafe shop, convenient shop",
+    agentName: "[Agent Name]",
+    agentEmail: "DragonTower@email.com",
+    agentPhone: "02-XXX-XXXX",
+    viewingAvailable: "Yes",
+    viewingSchedule: "By appointment"
+  },
+  "likas-pinas": {
+    name: "Property Name: Likas Pinas",
+    location: "Location: Quezon city, Metro Manila",
+    price: "₱20,000.00",
+    floorSize: "35 sqm",
+    listingType: "Rental",
+    bedrooms: "Studio type",
+    commute: "2.2km from work",
+    description: "A compact studio unit in Quezon City with easy access to public transport and everyday essentials.",
+    featurePrice: "₱20,000.00",
+    featureBedroom: "Studio",
+    featureBathroom: "1",
+    featureKitchen: "Fully equipped",
+    featureParking: "Available",
+    featureAircon: "Available",
+    featureWifi: "Available",
+    featureFurnished: "No",
+    distanceFromWork: "2.2 km",
+    indoorEstablishments: "Laundry Shop, Convenience store, Pharmacy",
+    agentName: "[Agent Name]",
+    agentEmail: "LikasPinas@email.com",
+    agentPhone: "02-XXX-XXXX",
+    viewingAvailable: "Yes",
+    viewingSchedule: "By appointment"
+  },
+  "greenview-building": {
+    name: "Property Name: GreenView Building",
+    location: "Location: Quezon city, Metro Manila",
+    price: "₱27,000.00",
+    floorSize: "35 sqm",
+    listingType: "Rental",
+    bedrooms: "Studio type",
+    commute: "3.2km from work",
+    description: "A quiet studio unit tucked in a green residential pocket of Quezon City, a short ride from work.",
+    featurePrice: "₱27,000.00",
+    featureBedroom: "Studio",
+    featureBathroom: "1",
+    featureKitchen: "Fully equipped",
+    featureParking: "Available",
+    featureAircon: "Available",
+    featureWifi: "Available",
+    featureFurnished: "No",
+    distanceFromWork: "3.2 km",
+    indoorEstablishments: "Grocery store, Cafe, Laundry Shop",
+    agentName: "[Agent Name]",
+    agentEmail: "GreenViewBuilding@email.com",
+    agentPhone: "02-XXX-XXXX",
+    viewingAvailable: "Yes",
+    viewingSchedule: "By appointment"
+  }
+};
+
+// ---------------------------------------------------------
+// 2. ELEMENT REFERENCES
+// ---------------------------------------------------------
+const propertyList = document.getElementById("propertyList");
+const propertyDetailWrapper = document.getElementById("propertyDetailWrapper");
+const propertyDetailSection = document.getElementById("propertyDetailSection");
+const backToResultsBtn = document.getElementById("backToResultsBtn");
+const matchingPanel = document.getElementById("matchingPanel");
+
+// ---------------------------------------------------------
+// 3. VIEW DETAILS — show the expanded card for one property
+// ---------------------------------------------------------
+function showPropertyDetails(propertyId) {
+  const data = PROPERTIES[propertyId];
+  if (!data) return;
+
+  // Fill in every element tagged data-field="..." inside the detail section
+  Object.keys(data).forEach((fieldName) => {
+    const el = propertyDetailSection.querySelector(`[data-field="${fieldName}"]`);
+    if (el) el.textContent = data[fieldName];
+  });
+
+  // Track which property is currently expanded, and mirror it onto
+  // the "Add to compare" button inside the detail view
+  propertyDetailSection.dataset.propertyId = propertyId;
+  const detailCompareBtn = document.getElementById("propertyDetailCompareBtn");
+  detailCompareBtn.dataset.propertyId = propertyId;
+  syncCompareButtonLabel(detailCompareBtn, propertyId);
+
+  // Swap views
+  propertyList.classList.add("is-hidden");
+  propertyDetailWrapper.classList.remove("is-hidden");
+
+  // Scroll the detail into view for convenience
+  propertyDetailWrapper.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function hidePropertyDetails() {
+  propertyDetailWrapper.classList.add("is-hidden");
+  propertyList.classList.remove("is-hidden");
+}
+
+// Event delegation: one listener on the panel catches clicks on any
+// current or future .view-details-btn, instead of wiring each button
+// individually.
+matchingPanel.addEventListener("click", (event) => {
+  const viewBtn = event.target.closest(".view-details-btn");
+  if (viewBtn) {
+    showPropertyDetails(viewBtn.dataset.propertyId);
+  }
+});
+
+backToResultsBtn.addEventListener("click", hidePropertyDetails);
+
+// ---------------------------------------------------------
+// 4. COMPARE SELECTION
+// Tracks up to two selected property ids, keeps every matching
+// "Add to compare" button (list view + detail view) in sync, and
+// updates the "Select First/Second property" labels.
+// ---------------------------------------------------------
+let selectedPropertyIds = []; // e.g. ["dragon-tower", "likas-pinas"]
+
+const selectFirstBtn = document.getElementById("selectFirstPropertyBtn");
+const selectSecondBtn = document.getElementById("selectSecondPropertyBtn");
+const swapBtn = document.getElementById("swapPropertiesBtn");
+
+function syncCompareButtonLabel(button, propertyId) {
+  const isSelected = selectedPropertyIds.includes(propertyId);
+  button.dataset.selected = String(isSelected);
+  button.textContent = isSelected ? "Remove from compare" : "Add to compare";
+}
+
+function refreshCompareUI() {
+  // Update every compare button on the page (list cards + detail view)
+  document.querySelectorAll(".add-compare-btn").forEach((btn) => {
+    syncCompareButtonLabel(btn, btn.dataset.propertyId);
+  });
+
+  // Update the two slot buttons
+  const name1 = selectedPropertyIds[0] ? PROPERTIES[selectedPropertyIds[0]].name.replace("Property Name: ", "") : null;
+  const name2 = selectedPropertyIds[1] ? PROPERTIES[selectedPropertyIds[1]].name.replace("Property Name: ", "") : null;
+
+  selectFirstBtn.textContent = name1 ? name1 : "Select First property +";
+  selectSecondBtn.textContent = name2 ? name2 : "Select Second property +";
+}
+
+function toggleCompareSelection(propertyId) {
+  const index = selectedPropertyIds.indexOf(propertyId);
+
+  if (index > -1) {
+    // Already selected — remove it
+    selectedPropertyIds.splice(index, 1);
+  } else if (selectedPropertyIds.length < 2) {
+    // Room for another pick
+    selectedPropertyIds.push(propertyId);
+  } else {
+    // Two are already selected — replace the first one
+    selectedPropertyIds.shift();
+    selectedPropertyIds.push(propertyId);
+  }
+
+  refreshCompareUI();
+}
+
+matchingPanel.addEventListener("click", (event) => {
+  const compareBtn = event.target.closest(".add-compare-btn");
+  if (compareBtn) {
+    toggleCompareSelection(compareBtn.dataset.propertyId);
+  }
+});
+
+swapBtn.addEventListener("click", () => {
+  selectedPropertyIds.reverse();
+  refreshCompareUI();
+});
+
+// Initialize labels on page load
+refreshCompareUI();
