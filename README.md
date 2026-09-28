@@ -228,7 +228,7 @@ This provides an interactive browsing experience without requiring the user to r
 
 ---
 
-# 6. `style.css` — Application Styling
+## 6. `style.css` — Application Styling
 
 The `style.css` file provides the visual design and layout for the entire Home Choice application.
 
@@ -252,7 +252,7 @@ It uses CSS variables for consistent colors, spacing, borders, shadows, fonts, a
 | `.best-match-banner`  | Highlights the best-match result     |
 | `.step__card`         | Styles the How It Works cards        |
 
-## The CSS also includes responsive layouts for smaller screens, including adjustments to the property preferences, importance-factor grid, steps, and property-detail columns.
+**The CSS also includes responsive layouts for smaller screens, including adjustments to the property preferences, importance-factor grid, steps, and property-detail columns.**
 
 # Application Workflow
 
@@ -292,7 +292,7 @@ The overall concept follows the three main steps presented on the homepage:
 
 ---
 
-## The property cards and detailed-property layout present these details in clearly labeled sections, making the information easier for users to understand and compare.
+**The property cards and detailed-property layout present these details in clearly labeled sections, making the information easier for users to understand and compare.**
 
 # Technologies Used
 
@@ -357,3 +357,9 @@ Home Choice is intended for:
 **Home Choice** is designed to simplify the property-search process by bringing property preferences, matching, detailed information, and comparison into one browser-based application.
 
 Instead of requiring users to manually organize different property options, the application provides structured property information and interactive tools that help users examine their choices based on the factors that matter to them.
+
+---
+
+# AI Use Statement
+
+https://docs.google.com/document/d/1KWIyuXTdqOlOQLyzCFduNdtPUae2AsdPb-0_5N4H4ZI/edit?usp=sharing
