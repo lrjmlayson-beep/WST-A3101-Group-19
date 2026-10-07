@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home Choice — Property Details</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+
+<header class="site-header">
+  <div class="site-header__brand">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5a1 1 0 0 0 1 1H17.5a1 1 0 0 0 1-1V10"/></svg>
+    HOME CHOICE
+  </div>
+  <nav class="site-header__nav">
+    <a href="#" id="navAgentsLink">Agents</a>
+    <a href="properties.html" id="navPropertiesLink">Properties</a>
+    <a href="#" id="navAboutLink">About us</a>
+    <button type="button" class="btn-login" id="loginRegisterBtn">Login / Register</button>
+  </nav>
+</header>
+
+<div class="page-body">
+
+
+  <section class="panel" id="preferencesPanel">
+    <h2 class="panel__title">Preferences:</h2>
+    <form id="preferencesForm">
+      <div class="preferences-grid">
+        <div class="form-field">
+          <label class="form-field__label" for="locationInput">Location :</label>
+          <input type="text" class="form-field__input" id="locationInput" name="location" placeholder="Enter a city or area">
+        </div>
+        <div class="form-field">
+          <label class="form-field__label" for="propertyTypeSelect">Property Type :</label>
+          <select class="form-field__select" id="propertyTypeSelect" name="propertyType">
+            <option value="">Select type</option>
+            <option value="condo">Condo</option>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="studio">Studio</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-field__label" for="lotSizeInput">Lot Size :</label>
+          <input type="text" class="form-field__input" id="lotSizeInput" name="lotSize" placeholder="e.g. 40 sqm">
+        </div>
+        <div class="form-field">
+          <label class="form-field__label" for="priceRangeSelect">Price :</label>
+          <select class="form-field__select" id="priceRangeSelect" name="priceRange">
+            <option value="">Select price range</option>
+            <option value="0-15000">₱0 – ₱15,000</option>
+            <option value="15000-30000">₱15,000 – ₱30,000</option>
+            <option value="30000-50000">₱30,000 – ₱50,000</option>
+            <option value="50000+">₱50,000+</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-field__label" for="financingSelect">Available Financing :</label>
+          <select class="form-field__select" id="financingSelect" name="availableFinancing">
+            <option value="">Select financing</option>
+            <option value="cash">Cash</option>
+            <option value="bank-loan">Bank loan</option>
+            <option value="pag-ibig">Pag-IBIG</option>
+            <option value="in-house">In-house financing</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-field__label" for="floorSizeInput">Floor size :</label>
+          <input type="text" class="form-field__input" id="floorSizeInput" name="floorSize" placeholder="e.g. 35 sqm">
+        </div>
+        <div class="form-field">
+          <label class="form-field__label" for="workAddressInput">Work address:</label>
+          <input type="text" class="form-field__input" id="workAddressInput" name="workAddress" placeholder="Enter your work address">
+        </div>
+        <div class="form-field">
+          <label class="form-field__label" for="listingTypeSelect">Listing Type :</label>
+          <select class="form-field__select" id="listingTypeSelect" name="listingType">
+            <option value="">Select listing type</option>
+            <option value="rental">Rental</option>
+            <option value="sale">For Sale</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-field__label" for="bedroomsSelect">No# of Bedroom:</label>
+          <select class="form-field__select" id="bedroomsSelect" name="bedrooms">
+            <option value="">Any</option>
+            <option value="studio">Studio</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4+">4+</option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </section>
+
+  <section class="panel" id="importancePanel">
+    <h2 class="panel__title">Importance factor:</h2>
+    <div class="weights-grid">
+      <div class="weight-field">
+        <label class="weight-field__label" for="rentWeightSlider">Rent</label>
+        <input type="range" class="weight-field__slider" id="rentWeightSlider" name="rentWeight" data-weight="rent" min="0" max="100" value="43">
+        <div class="weight-field__value" id="rentWeightValue">43%</div>
+      </div>
+      <div class="weight-field">
+        <label class="weight-field__label" for="locationWeightSlider">Location</label>
+        <input type="range" class="weight-field__slider" id="locationWeightSlider" name="locationWeight" data-weight="location" min="0" max="100" value="88">
+        <div class="weight-field__value" id="locationWeightValue">88%</div>
+      </div>
+      <div class="weight-field">
+        <label class="weight-field__label" for="sizeWeightSlider">Size</label>
+        <input type="range" class="weight-field__slider" id="sizeWeightSlider" name="sizeWeight" data-weight="size" min="0" max="100" value="50">
+        <div class="weight-field__value" id="sizeWeightValue">50%</div>
+      </div>
+      <div class="weight-field">
+        <label class="weight-field__label" for="amenitiesWeightSlider">Amenities</label>
+        <input type="range" class="weight-field__slider" id="amenitiesWeightSlider" name="amenitiesWeight" data-weight="amenities" min="0" max="100" value="75">
+        <div class="weight-field__value" id="amenitiesWeightValue">75%</div>
+      </div>
+      <div class="weight-field">
+        <label class="weight-field__label" for="commuteWeightSlider">Commute</label>
+        <input type="range" class="weight-field__slider" id="commuteWeightSlider" name="commuteWeight" data-weight="commute" min="0" max="100" value="75">
+        <div class="weight-field__value" id="commuteWeightValue">75%</div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="panel" id="matchingPanel">
+    <div class="matching-header">
+      <h2 class="matching-header__title">Matching Properties:</h2>
+      <div class="compare-controls">
+        <button type="button" class="compare-select-btn" id="selectFirstPropertyBtn" data-slot="1">
+          Select First property <span aria-hidden="true">+</span>
+        </button>
+        <button type="button" class="compare-select-btn" id="selectSecondPropertyBtn" data-slot="2">
+          Select Second property <span aria-hidden="true">+</span>
+        </button>
+        <button type="button" class="swap-btn" id="swapPropertiesBtn" aria-label="Swap selected properties">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h11l-3-3M17 17H6l3 3"/></svg>
+        </button>
+      </div>
+    </div>
+
+  
+    <article class="property-detail" id="propertyDetailSection" data-property-id="dragon-tower">
+
+      <div class="property-detail__top">
+        <div class="property-detail__photo" role="img" aria-label="Photo of Dragon tower"></div>
+        <div class="property-detail__body">
+          <h3 class="property-detail__name" data-field="name">Property Name: Dragon tower</h3>
+          <p class="property-detail__location" data-field="location">Location: Quezon city, Metro Manila</p>
+          <dl class="property-detail__meta">
+            <div><dt>Price:</dt><dd data-field="price">₱35,000.00</dd></div>
+            <div><dt>Floor size:</dt><dd data-field="floorSize">40 sqm</dd></div>
+            <div><dt>Listing type:</dt><dd data-field="listingType">Rental</dd></div>
+            <div><dt>Bedrooms:</dt><dd data-field="bedrooms">Studio type</dd></div>
+          </dl>
+          <p class="property-detail__commute" data-field="commute">4km from work</p>
+          <div class="property-detail__actions">
+            <button type="button" class="btn-outline" id="propertyDetailViewBtn" data-property-id="dragon-tower">View Details</button>
+            <button type="button" class="btn-compare add-compare-btn" id="propertyDetailCompareBtn" data-property-id="dragon-tower" data-selected="false">Add to compare</button>
+          </div>
+        </div>
+      </div>
+
+      <h4 class="property-detail__section-title">Property Description</h4>
+      <p class="property-detail__desc" data-field="description">A studio-type rental unit located in Quezon City, suitable for individuals looking for a convenient living space with access to essential amenities and transportation.</p>
+
+      <div class="property-detail__columns">
+        <div>
+          <h4 class="property-detail__section-title">Property Features :</h4>
+          <ul class="feature-list">
+            <li><span>Price:</span><span data-field="featurePrice">₱35,000.00</span></li>
+            <li><span>Bedroom:</span><span data-field="featureBedroom">Studio</span></li>
+            <li><span>Bathroom:</span><span data-field="featureBathroom">1</span></li>
+            <li><span>Kitchen:</span><span data-field="featureKitchen">Fully equipped</span></li>
+            <li><span>Parking:</span><span data-field="featureParking">Available</span></li>
+            <li><span>Air Conditioning:</span><span data-field="featureAircon">Available</span></li>
+            <li><span>Wi-Fi:</span><span data-field="featureWifi">Available</span></li>
+            <li><span>Furnished:</span><span data-field="featureFurnished">No</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="property-detail__section-title">Location Information:</h4>
+          <ul class="feature-list">
+            <li><span>Distance from Work:</span><span data-field="distanceFromWork">4 km</span></li>
+          </ul>
+          <p style="font-size:0.88rem; color:var(--text-muted); margin:10px 0 4px;">Indoor establishment :</p>
+          <p style="font-size:0.9rem;" data-field="indoorEstablishments">Laundry Shop, Mini school supply shop, Cafe shop, convenient shop</p>
+
+          <h4 class="property-detail__section-title" style="margin-top:18px;">Contact Details :</h4>
+          <ul class="feature-list">
+            <li><span>Agent Name:</span><span data-field="agentName">[Agent Name]</span></li>
+            <li><span>Email:</span><span data-field="agentEmail">DragonTower@email.com</span></li>
+            <li><span>Contact Number:</span><span data-field="agentPhone">02-XXX-XXXX</span></li>
+            <li><span>Viewing available:</span><span data-field="viewingAvailable">Yes</span></li>
+            <li><span>Schedule:</span><span data-field="viewingSchedule">By appointment</span></li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </section>
+
+</div>
+
+<footer class="site-footer">
+  <a href="#" id="footerAboutLink">About</a>
+  <a href="#" id="footerCustomerServiceLink">Costumer Service</a>
+  <a href="#" id="footerResourcesLink">Resources</a>
+  <a href="#" id="footerHomeLoanLink">Home LOAN</a>
+</footer>
+
+</body>
+</html>
