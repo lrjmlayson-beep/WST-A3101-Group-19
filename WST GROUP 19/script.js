@@ -64,6 +64,14 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!card || !detailWrapper) return;
 
       const propId = card.getAttribute("data-property-id");
+      const detailCompareBtn = detailWrapper.querySelector(
+          ".add-compare-btn"
+        );
+
+        if (detailCompareBtn) {
+          detailCompareBtn.dataset.propertyId = propId;node
+        }
+
       const nameEl = card.querySelector(".property-card__name");
       const locationEl = card.querySelector(".property-card__location");
       const imgEl = card.querySelector(".property-card__photo");
@@ -91,9 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Lower specs list
       const specs = propertySpecs[propId];
+      
       if (specs) {
+        
         const setField = (field, val) => {
           const el = detailWrapper.querySelector(`[data-field="${field}"]`);
+          
           if (el) el.textContent = val;
         };
 
@@ -119,6 +130,416 @@ document.addEventListener("DOMContentLoaded", function () {
       detailWrapper.scrollIntoView({ behavior: "smooth" });
     });
   });
+
+
+  // 1. HOMEPAGE SEARCH
+  const heroSearchForm = document.getElementById("heroSearchForm");
+
+  if (heroSearchForm) {
+    heroSearchForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const location = document
+        .getElementById("heroLocationInput")
+        .value.trim();
+
+      const priceRange = document
+        .getElementById("heroPriceRangeSelect")
+        .value;
+
+      const propertyType = document
+        .getElementById("heroPropertyTypeSelect")
+        .value;
+
+      const params = new URLSearchParams({
+        location,
+        priceRange,
+        propertyType
+      });
+
+      window.location.href = `properties.html?${params.toString()}`;
+    });
+  }
+
+
+  // 2. PROPERTY SEARCH AND FILTERING
+  const propertyCards = Array.from(
+    document.querySelectorAll(".property-card[data-property-id]")
+  );
+
+  function applyPropertyFilters() {
+    const locationInput = document.getElementById("locationInput");
+    const typeSelect = document.getElementById("propertyTypeSelect");
+    const priceSelect = document.getElementById("heroPriceRangeSelect");
+
+    const location = locationInput
+      ? locationInput.value.trim().toLowerCase()
+      : "";
+
+    const propertyType = typeSelect ? typeSelect.value.toLowerCase() : "";
+    const priceRange = priceSelect ? priceSelect.value : "";
+
+    let visibleCount = 0;
+
+    propertyCards.forEach(function (card) {
+      const cardLocation =
+        card.querySelector(".property-card__location")?.textContent
+          .toLowerCase() || "";
+
+      const cardName =
+        card.querySelector(".property-card__name")?.textContent
+          .toLowerCase() || "";
+
+      const priceText =
+        card.querySelector('[data-field="price"]')?.textContent || "";
+
+      const price = Number(priceText.replace(/[^\d.]/g, ""));
+
+      const cardType =
+        card.dataset.propertyType?.toLowerCase() || "";
+
+      const matchesLocation =
+        !location ||
+        cardLocation.includes(location) ||
+        cardName.includes(location);
+
+      const matchesType =
+        !propertyType || cardType === propertyType;
+
+      let matchesPrice = true;
+
+      if (priceRange === "0-15000") {
+        matchesPrice = price <= 15000;
+      } else if (priceRange === "15000-30000") {
+        matchesPrice = price > 15000 && price <= 30000;
+      } else if (priceRange === "30000-50000") {
+        matchesPrice = price > 30000 && price <= 50000;
+      } else if (priceRange === "50000+") {
+        matchesPrice = price > 50000;
+      }
+
+      const showCard =
+        matchesLocation && matchesType && matchesPrice;
+
+      card.hidden = !showCard;
+
+      if (showCard) visibleCount++;
+    });
+
+    let message = document.getElementById("searchResultsMessage");
+
+    if (!message && propertyCards.length > 0) {
+      message = document.createElement("p");
+      message.id = "searchResultsMessage";
+      message.setAttribute("role", "status");
+      propertyCards[0].parentElement.before(message);
+    }
+
+    if (message) {
+      message.textContent =
+        `${visibleCount} matching propert${visibleCount === 1 ? "y" : "ies"} found.`;
+    }
+  }
+
+  // Read filters passed from the homepage.
+  const queryParams = new URLSearchParams(window.location.search);
+
+  const locationInput = document.getElementById("locationInput");
+  const propertyTypeSelect = document.getElementById("propertyTypeSelect");
+
+  if (locationInput && queryParams.has("location")) {
+    locationInput.value = queryParams.get("location");
+  }
+
+  if (propertyTypeSelect && queryParams.has("propertyType")) {
+    propertyTypeSelect.value = queryParams.get("propertyType");
+  }
+
+  // Apply the homepage price filter only if a matching select exists
+  // on the Properties page.
+  if (queryParams.has("priceRange")) {
+    const priceSelect = document.getElementById("heroPriceRangeSelect");
+
+    if (priceSelect) {
+      priceSelect.value = queryParams.get("priceRange");
+    }
+  }
+
+  const preferencesForm = document.getElementById("preferencesForm");
+
+  if (preferencesForm) {
+    preferencesForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      applyPropertyFilters();
+    });
+  }
+
+  // If the page was opened with search filters, apply them immediately.
+  if (propertyCards.length > 0 && window.location.search) {
+    applyPropertyFilters();
+  }
+
+
+  // 3. SELECT PROPERTIES TO COMPARE
+  let selectedProperties = [];
+
+  try {
+    selectedProperties = JSON.parse(
+      localStorage.getItem("homeChoiceSelectedProperties") || "[]"
+    );
+  } catch (error) {
+    selectedProperties = [];
+  }
+
+  function updateCompareButtons() {
+    document.querySelectorAll(".add-compare-btn").forEach(function (button) {
+      const id = button.dataset.propertyId;
+      const isSelected = id && selectedProperties.includes(id);
+
+      button.textContent = isSelected
+        ? "Remove from compare"
+        : "Add to compare";
+    });
+  }
+
+  document.addEventListener("click", function (event) {
+    const button = event.target.closest(".add-compare-btn");
+
+    if (!button) return;
+
+    const card = button.closest(".property-card");
+
+    // Use the property card's ID if the button doesn't have one.
+    const id = button.dataset.propertyId ||
+      (card && card.dataset.propertyId);
+
+    if (!id) {
+      alert("Property ID is missing. Check the property's HTML.");
+      return;
+    }
+
+    // Keep the button's ID synchronized.
+    button.dataset.propertyId = id;
+
+    if (selectedProperties.includes(id)) {
+      selectedProperties = selectedProperties.filter(
+        selectedId => selectedId !== id
+      );
+    } else {
+      if (selectedProperties.length >= 2) {
+        alert("You can compare only two properties at a time.");
+        return;
+      }
+
+      selectedProperties.push(id);
+    }
+
+    localStorage.setItem(
+      "homeChoiceSelectedProperties",
+      JSON.stringify(selectedProperties)
+    );
+
+    updateCompareButtons();
+
+    if (selectedProperties.length === 2) {
+      if (confirm("Two properties selected. Open the comparison page now?")) {
+        window.location.href = "Comparison.html";
+      }
+    }
+  });
+
+  updateCompareButtons();
+
+
+  // 4. SAVE THE COMPARISON
+  const saveComparisonBtn = document.getElementById("saveComparisonBtn");
+
+  if (saveComparisonBtn) {
+    saveComparisonBtn.addEventListener("click", async function () {
+      const firstId = document.getElementById(
+        "comparisonProperty1Name"
+      )?.dataset.propertyId;
+
+      const secondId = document.getElementById(
+        "comparisonProperty2Name"
+      )?.dataset.propertyId;
+
+      if (!firstId || !secondId || firstId === secondId) {
+        alert("Please select two different properties to compare.");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/comparisons", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            propertyIds: [firstId, secondId]
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Unable to save comparison.");
+        }
+
+        alert("Comparison saved successfully on the server.");
+      } catch (error) {
+        console.error("Save comparison error:", error);
+        alert("Could not save. Check that the HomeChoice server is running.");
+      }
+    });
+  }
+
+  // 5. SWAP THE TWO COMPARISON COLUMNS
+  const swapComparisonBtn = document.getElementById("swapComparisonBtn");
+
+  if (swapComparisonBtn) {
+    swapComparisonBtn.addEventListener("click", function () {
+      const table = document.getElementById("comparisonTable");
+
+      if (!table) return;
+
+      const firstHeading = document.getElementById("comparisonProperty1Name");
+      const secondHeading = document.getElementById("comparisonProperty2Name");
+
+      if (!firstHeading || !secondHeading) return;
+
+      // Swap the property names and IDs in the column headings.
+      const firstName = firstHeading.textContent;
+      firstHeading.textContent = secondHeading.textContent;
+      secondHeading.textContent = firstName;
+
+      const firstId = firstHeading.dataset.propertyId;
+      firstHeading.dataset.propertyId = secondHeading.dataset.propertyId;
+      secondHeading.dataset.propertyId = firstId;
+
+      // Swap each pair of cells in the table.
+      table.querySelectorAll("tbody tr").forEach(function (row) {
+        const firstCell = row.querySelector('[data-property="1"]');
+        const secondCell = row.querySelector('[data-property="2"]');
+
+        if (firstCell && secondCell) {
+          const firstValue = firstCell.textContent;
+          firstCell.textContent = secondCell.textContent;
+          secondCell.textContent = firstValue;
+        }
+      });
+    });
+  }
+
+
+  // 6. DEMO LOGIN / REGISTER BUTTON
+  const loginRegisterBtn = document.getElementById("loginRegisterBtn");
+
+  if (loginRegisterBtn) {
+    loginRegisterBtn.addEventListener("click", function () {
+      alert(
+        "Login / Register will be available when the authentication feature is implemented."
+      );
+    });
+  }
+
+  
+  // 7. LOAD COMPARISON DATA FROM BACKEND
+  async function loadComparisonFromBackend() {
+    const table = document.getElementById("comparisonTable");
+
+    if (!table) return;
+
+    try {
+      const response = await fetch("/api/properties");
+
+      if (!response.ok) {
+        throw new Error("Could not retrieve properties.");
+      }
+
+      const properties = await response.json();
+
+      const firstHeading = document.getElementById(
+        "comparisonProperty1Name"
+      );
+
+      const secondHeading = document.getElementById(
+        "comparisonProperty2Name"
+      );
+
+      const selectedIds = JSON.parse(
+        localStorage.getItem("homeChoiceSelectedProperties") || "[]"
+      );
+
+      // Use selected properties when two have been chosen.
+      // Otherwise, keep the two IDs already in the HTML.
+      const firstId = selectedIds.length === 2
+        ? selectedIds[0]
+        : firstHeading.dataset.propertyId;
+
+      const secondId = selectedIds.length === 2
+        ? selectedIds[1]
+        : secondHeading.dataset.propertyId;
+
+      const first = properties.find(property => property.id === firstId);
+      const second = properties.find(property => property.id === secondId);
+
+      if (!first || !second) {
+        throw new Error("One or both properties could not be found.");
+      }
+
+      firstHeading.textContent = first.name;
+      firstHeading.dataset.propertyId = first.id;
+
+      secondHeading.textContent = second.name;
+      secondHeading.dataset.propertyId = second.id;
+
+      const featureValues = {
+        monthlyRent: property => `₱${property.price.toLocaleString("en-PH", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}`,
+        location: property => property.location,
+        lotFloorSize: property => `${property.size} sqm`,
+        propertyType: property => property.type,
+        bedrooms: property => property.bedrooms,
+        bathrooms: property => String(property.bathrooms),
+        amenities: property => property.amenities.join(", "),
+        distanceToWork: property => `${property.distanceToWork} km`,
+        overallScore: property => `${property.score}%`
+      };
+
+      table.querySelectorAll("tbody tr[data-feature]").forEach(row => {
+        const feature = row.dataset.feature;
+        const formatter = featureValues[feature];
+
+        if (!formatter) return;
+
+        const firstCell = row.querySelector('[data-property="1"]');
+        const secondCell = row.querySelector('[data-property="2"]');
+
+        if (firstCell) firstCell.textContent = formatter(first);
+        if (secondCell) secondCell.textContent = formatter(second);
+      });
+
+      const bestMatch = first.score >= second.score ? first : second;
+      const bestMatchName = document.getElementById("bestMatchName");
+
+      if (bestMatchName) {
+        bestMatchName.textContent = bestMatch.name;
+      }
+
+      const banner = document.getElementById("bestMatchBanner");
+
+      if (banner) {
+        banner.dataset.propertyId = bestMatch.id;
+      }
+    } catch (error) {
+      console.error("Unable to load comparison:", error);
+    }
+  }
+  
+  loadComparisonFromBackend();
 
   if (backBtn && detailWrapper) {
     backBtn.addEventListener("click", function () {
