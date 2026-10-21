@@ -530,8 +530,9 @@ input, select { font-family: var(--font); }
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  flex-wrap: nowrap;
 }
-.comparison-header__title { font-weight: 700; font-size: 1.05rem; margin: 0; }
+.comparison-header__title { font-weight: 700; font-size: 1.05rem; margin: 0; margin-right: auto; }
 
 .btn-save {
   border: 1px solid var(--navy);
