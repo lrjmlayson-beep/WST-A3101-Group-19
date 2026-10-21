@@ -1,0 +1,125 @@
+[
+  {
+    "id": "1792507219624",
+    "savedAt": "2026-10-20T14:40:19.624Z",
+    "properties": [
+      {
+        "id": "dragon-tower",
+        "name": "Dragon Tower",
+        "price": 35000,
+        "location": "Quezon City, Metro Manila",
+        "size": 40,
+        "type": "Studio type",
+        "bedrooms": "Studio",
+        "bathrooms": 1,
+        "amenities": [
+          "Pool",
+          "Gym",
+          "Parking"
+        ],
+        "distanceToWork": 4,
+        "score": 64
+      },
+      {
+        "id": "likas-pinas",
+        "name": "Likas Pinas",
+        "price": 20000,
+        "location": "Quezon City, Metro Manila",
+        "size": 35,
+        "type": "Studio type",
+        "bedrooms": "Studio",
+        "bathrooms": 1,
+        "amenities": [
+          "Pool",
+          "Gym",
+          "Parking",
+          "Laundry Shop"
+        ],
+        "distanceToWork": 2.2,
+        "score": 82
+      }
+    ]
+  },
+  {
+    "id": "1792509163077",
+    "savedAt": "2026-10-20T15:12:43.077Z",
+    "properties": [
+      {
+        "id": "likas-pinas",
+        "name": "Likas Pinas",
+        "price": 20000,
+        "location": "Quezon City, Metro Manila",
+        "size": 35,
+        "type": "Studio type",
+        "bedrooms": "Studio",
+        "bathrooms": 1,
+        "amenities": [
+          "Pool",
+          "Gym",
+          "Parking",
+          "Laundry Shop"
+        ],
+        "distanceToWork": 2.2,
+        "score": 82
+      },
+      {
+        "id": "greenview-building",
+        "name": "Greenview Building",
+        "price": 27000,
+        "location": "Quezon City, Metro Manila",
+        "size": 30,
+        "type": "Studio type",
+        "bedrooms": "Studio",
+        "bathrooms": 1,
+        "amenities": [
+          "Gym",
+          "Pool",
+          "Supermarket"
+        ],
+        "distanceToWork": 3.2,
+        "score": 72
+      }
+    ]
+  },
+  {
+    "id": "1792509184045",
+    "savedAt": "2026-10-20T15:13:04.045Z",
+    "properties": [
+      {
+        "id": "likas-pinas",
+        "name": "Likas Pinas",
+        "price": 20000,
+        "location": "Quezon City, Metro Manila",
+        "size": 35,
+        "type": "Studio type",
+        "bedrooms": "Studio",
+        "bathrooms": 1,
+        "amenities": [
+          "Pool",
+          "Gym",
+          "Parking",
+          "Laundry Shop"
+        ],
+        "distanceToWork": 2.2,
+        "score": 82
+      },
+      {
+        "id": "greenview-building",
+        "name": "Greenview Building",
+        "price": 27000,
+        "location": "Quezon City, Metro Manila",
+        "size": 30,
+        "type": "Studio type",
+        "bedrooms": "Studio",
+        "bathrooms": 1,
+        "amenities": [
+          "Gym",
+          "Pool",
+          "Supermarket"
+        ],
+        "distanceToWork": 3.2,
+        "score": 72
+      }
+    ]
+  }
+]
