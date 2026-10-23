@@ -9,10 +9,10 @@
 <body>
 
 <header class="site-header">
-  <div class="site-header__brand">
+  <a href="index.html" class="site-header__brand">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5a1 1 0 0 0 1 1H17.5a1 1 0 0 0 1-1V10"/></svg>
-    HOME CHOICE
-  </div>
+    <span>HOME CHOICE</span>
+  </a>
   <nav class="site-header__nav">
     <a href="#" id="navAgentsLink">Agents</a>
     <a href="properties.html" id="navPropertiesLink">Properties</a>
@@ -28,6 +28,7 @@
     <div class="comparison-header">
       <h2 class="comparison-header__title">Properties Comparison :</h2>
       <button type="button" class="btn-save" id="saveComparisonBtn">Save</button>
+      <button type="button" class="btn-outline" id="swapComparisonBtn">Swap Properties</button>
     </div>
 
     <div class="best-match-banner" id="bestMatchBanner" data-property-id="likas-pinas">
@@ -105,12 +106,67 @@
 
 </div>
 
+
+
+<!-- Saved Comparisons Section -->
+<section class="saved-comparisons panel" id="savedComparisonsSection">
+    <div class="saved-comparisons__header">
+        <div class="saved-comparisons__intro">
+            <div class="saved-comparisons__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 4.5A2.5 2.5 0 0 1 8.5 2h7A2.5 2.5 0 0 1 18 4.5V22l-6-4-6 4V4.5Z"/>
+                </svg>
+            </div>
+
+            <div>
+                <h2 class="saved-comparisons__title">
+                    Saved Comparisons
+                </h2>
+                <p class="saved-comparisons__description">
+                    View your previously saved property comparisons.
+                </p>
+            </div>
+        </div>
+
+        <button
+            type="button"
+            class="btn-primary saved-comparisons__toggle"
+            id="viewSavedComparisonsBtn"
+            aria-expanded="false"
+            aria-controls="savedComparisonsContent">
+            View Saved Comparisons
+        </button>
+    </div>
+
+    <div
+        class="saved-comparisons__content is-hidden"
+        id="savedComparisonsContent">
+
+        <p
+            class="saved-comparisons__status"
+            id="savedComparisonsStatus"
+            role="status"
+            aria-live="polite">
+            Select "View Saved Comparisons" to load your saved records.
+        </p>
+
+        <div
+            class="saved-comparisons__list"
+            id="savedComparisonsList">
+        </div>
+    </div>
+</section>
+<!-- End Saved Comparisons Section -->
+
 <footer class="site-footer">
   <a href="#" id="footerAboutLink">About</a>
-  <a href="#" id="footerCustomerServiceLink">Costumer Service</a>
+  <a href="#" id="footerCustomerServiceLink">Customer Service</a>
   <a href="#" id="footerResourcesLink">Resources</a>
   <a href="#" id="footerHomeLoanLink">Home LOAN</a>
 </footer>
 
+<script src="script.js"></script>
 </body>
 </html>
