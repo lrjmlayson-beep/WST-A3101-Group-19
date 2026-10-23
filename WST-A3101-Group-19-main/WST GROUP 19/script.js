@@ -187,7 +187,57 @@ document.addEventListener("DOMContentLoaded", function () {
   if (saveBtn) {
     saveBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      alert("Comparison saved to your shortlisted properties!");
+    });
+  }
+});
+// ==========================================
+// BACKEND INTEGRATION: SAVE COMPARISON
+// ==========================================
+document.addEventListener('DOMContentLoaded', function () {
+  const saveBtn = document.getElementById('saveComparisonBtn');
+
+  if (saveBtn) {
+    saveBtn.addEventListener('click', async function () {
+      // 1. Grab property names from comparison table headers (or fallback)
+      const th1 = document.querySelector('#comparisonTable thead th:nth-child(2)');
+      const th2 = document.querySelector('#comparisonTable thead th:nth-child(3)');
+
+      const prop1 = th1 ? th1.textContent.trim() : 'Property 1';
+      const prop2 = th2 ? th2.textContent.trim() : 'Property 2';
+
+      const payload = {
+        property1: prop1,
+        property2: prop2,
+        notes: 'User comparison session'
+      };
+
+      const originalBtnText = saveBtn.textContent;
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving to server...';
+
+      try {
+        const response = await fetch('/api/comparisons', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+          alert(`Saved successfully!\n\n${result.data.property1} vs ${result.data.property2}\nID: ${result.data.id}`);
+        } else {
+          alert(`Error: ${result.error || 'Failed to save.'}`);
+        }
+      } catch (err) {
+        console.error('Network error:', err);
+        alert('Could not reach backend server. Make sure "node server.js" is running in your terminal.');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = originalBtnText;
+      }
     });
   }
 });

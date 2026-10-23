@@ -70,9 +70,9 @@
 
 <section class="value-props">
   <div class="value-prop">No more guess work</div>
- <div class="value-props__icon">
-  <img src="WST ICON/stress.png" alt="Person using a laptop">
-</div>
+  <div class="value-props__icon">
+    <img src="WST ICON/stress.png" alt="Person using a laptop">
+  </div>
   <div class="value-prop">less time to calculate</div>
 
   <div class="value-prop">Minutes not weekends</div>
@@ -115,6 +115,82 @@
   <a href="#" id="footerResourcesLink">Resources</a>
   <a href="#" id="footerHomeLoanLink">Home LOAN</a>
 </footer>
+
+<!-- ========================================== -->
+<!-- COURSERA HW5: INTERACTIVITY & DOM INJECTION -->
+<!-- ========================================== -->
+<section class="panel" id="searchResultsSection" style="max-width: 900px; margin: 30px auto; padding: 20px; display: none;">
+  <h3 id="resultsHeading" style="margin-top: 0; color: #0f3f5c;">Matching Properties</h3>
+  <div id="resultsContainer" style="display: flex; flex-direction: column; gap: 12px;"></div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const sampleListings = [
+      { name: "Dragon Tower Studio", type: "studio", location: "Quezon City", price: 35000, maxPriceRange: "30000-50000" },
+      { name: "Likas Pinas Apartment", type: "apartment", location: "Quezon City", price: 20000, maxPriceRange: "15000-30000" },
+      { name: "Metro Heights Condo", type: "condo", location: "Makati", price: 45000, maxPriceRange: "30000-50000" },
+      { name: "Greenfield House", type: "house", location: "Taguig", price: 65000, maxPriceRange: "50000+" }
+    ];
+
+    const searchForm = document.getElementById("heroSearchForm");
+    const locationInput = document.getElementById("heroLocationInput");
+    const priceSelect = document.getElementById("heroPriceRangeSelect");
+    const typeSelect = document.getElementById("heroPropertyTypeSelect");
+    const resultsSection = document.getElementById("searchResultsSection");
+    const resultsContainer = document.getElementById("resultsContainer");
+    const resultsHeading = document.getElementById("resultsHeading");
+    const loginBtn = document.getElementById("loginRegisterBtn");
+
+    if (loginBtn) {
+      loginBtn.addEventListener("click", function () {
+        alert("Login / Registration modal is coming soon in Milestone 2!");
+      });
+    }
+
+    if (searchForm) {
+      searchForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const userLocation = locationInput.value.trim().toLowerCase();
+        const selectedPrice = priceSelect.value;
+        const selectedType = typeSelect.value;
+
+        const filtered = sampleListings.filter(function (property) {
+          const matchesLocation = !userLocation || property.location.toLowerCase().includes(userLocation);
+          const matchesPrice = !selectedPrice || property.maxPriceRange === selectedPrice;
+          const matchesType = !selectedType || property.type.toLowerCase() === selectedType.toLowerCase();
+          return matchesLocation && matchesPrice && matchesType;
+        });
+
+        resultsContainer.innerHTML = "";
+        resultsSection.style.display = "block";
+
+        if (filtered.length > 0) {
+          resultsHeading.textContent = `Found ${filtered.length} matching properties:`;
+          filtered.forEach(function (prop) {
+            const card = document.createElement("div");
+            card.style.border = "1px solid #d7e3ec";
+            card.style.borderRadius = "8px";
+            card.style.padding = "14px";
+            card.style.background = "#ffffff";
+            card.innerHTML = `
+              <strong style="color: #0f3f5c; font-size: 1.05rem;">${prop.name}</strong>
+              <p style="margin: 6px 0; color: #5b6b76; font-size: 0.9rem;">Location: ${prop.location} | Type: ${prop.type.toUpperCase()}</p>
+              <span style="font-weight: 600; color: #0b2f45;">₱${prop.price.toLocaleString()} / month</span>
+            `;
+            resultsContainer.appendChild(card);
+          });
+        } else {
+          resultsHeading.textContent = "No matching properties found.";
+          resultsContainer.innerHTML = "<p style='color: #5b6b76;'>Try adjusting your search criteria or price range.</p>";
+        }
+
+        resultsSection.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  });
+</script>
 
 </body>
 </html>
