@@ -66,3 +66,8 @@ The backend provides the following endpoints:
 ## Project Documentation
 - [AI Use Documentation](https://docs.google.com/document/d/1KWIyuXTdqOlOQLyzCFduNdtPUae2AsdPb-0_5N4H4ZI/edit?usp=sharing)
 - [Application Workflow](https://docs.google.com/spreadsheets/d/1I6dl3kYJpOhzzUmd8_BCs3EehMsE1GMB4oPFnXwPd6A/edit?usp=sharing)
+- ## Milestone 2 - QA & Testing Verification
+- [x] Frontend interactivity verified (`script.js` event handling and DOM manipulation)
+- [x] Input validation and form responsiveness checked
+- [x] Communication flow between frontend and Express.js backend tested
+- [x] Cross-browser compatibility and layout responsiveness verified for Home Choice
