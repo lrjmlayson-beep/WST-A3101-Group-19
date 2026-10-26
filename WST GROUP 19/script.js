@@ -547,4 +547,153 @@ document.addEventListener("DOMContentLoaded", function () {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
   }
+
+  
+/* Saved Comparisons */
+
+const viewSavedComparisonsBtn = document.getElementById(
+    "viewSavedComparisonsBtn"
+);
+
+const savedComparisonsContent = document.getElementById(
+    "savedComparisonsContent"
+);
+
+const savedComparisonsStatus = document.getElementById(
+    "savedComparisonsStatus"
+);
+
+const savedComparisonsList = document.getElementById(
+    "savedComparisonsList"
+);
+
+if (
+    viewSavedComparisonsBtn &&
+    savedComparisonsContent &&
+    savedComparisonsStatus &&
+    savedComparisonsList
+) {
+    viewSavedComparisonsBtn.addEventListener("click", async () => {
+        const isHidden = savedComparisonsContent.classList.contains(
+            "is-hidden"
+        );
+
+        if (!isHidden) {
+            savedComparisonsContent.classList.add("is-hidden");
+            viewSavedComparisonsBtn.setAttribute("aria-expanded", "false");
+            viewSavedComparisonsBtn.textContent = "View Saved Comparisons";
+            return;
+        }
+
+        savedComparisonsContent.classList.remove("is-hidden");
+        viewSavedComparisonsBtn.setAttribute("aria-expanded", "true");
+        viewSavedComparisonsBtn.textContent = "Hide Saved Comparisons";
+
+        await loadSavedComparisons();
+    });
+}
+
+async function loadSavedComparisons() {
+    savedComparisonsStatus.textContent = "Loading saved comparisons...";
+    savedComparisonsList.replaceChildren();
+
+    try {
+        const response = await fetch("/api/comparisons");
+
+        if (!response.ok) {
+            throw new Error("Unable to retrieve saved comparisons.");
+        }
+
+        const comparisons = await response.json();
+
+        if (!Array.isArray(comparisons)) {
+            throw new Error("The server returned an invalid response.");
+        }
+
+        if (comparisons.length === 0) {
+            savedComparisonsStatus.textContent =
+                "No comparisons saved yet. Compare two properties and select Save to get started.";
+            return;
+        }
+
+        savedComparisonsStatus.textContent =
+            `${comparisons.length} saved comparison` +
+            (comparisons.length === 1 ? "" : "s") + ".";
+
+        comparisons.slice().reverse().forEach((comparison) => {
+            const properties = Array.isArray(comparison.properties)
+                ? comparison.properties
+                : [];
+
+            const firstProperty = properties[0];
+            const secondProperty = properties[1];
+
+            const item = document.createElement("article");
+            item.className = "saved-comparison-item";
+
+            const details = document.createElement("div");
+            details.className = "saved-comparison-item__details";
+
+            const title = document.createElement("h3");
+            title.className = "saved-comparison-item__title";
+            title.textContent =
+                `${firstProperty?.name || "Unknown property"} vs. ` +
+                `${secondProperty?.name || "Unknown property"}`;
+
+            const date = document.createElement("p");
+            date.className = "saved-comparison-item__date";
+
+            const savedDate = comparison.savedAt
+                ? new Date(comparison.savedAt)
+                : null;
+
+            date.textContent =
+                savedDate && !Number.isNaN(savedDate.getTime())
+                    ? `Saved on: ${savedDate.toLocaleString()}`
+                    : "Saved date unavailable";
+
+            const openButton = document.createElement("button");
+            openButton.type = "button";
+            openButton.className = "saved-comparison-item__button";
+            openButton.textContent = "View Comparison";
+
+            openButton.addEventListener("click", () => {
+                if (!firstProperty?.id || !secondProperty?.id) {
+                    alert("This saved comparison has incomplete property data.");
+                    return;
+                }
+
+                localStorage.setItem(
+                    "homeChoiceSelectedProperties",
+                    JSON.stringify([
+                        firstProperty.id,
+                        secondProperty.id
+                    ])
+                );
+
+                window.location.reload();
+                window.scrollTo(0, 0);
+            });
+
+            details.append(title, date);
+            item.append(details, openButton);
+            savedComparisonsList.appendChild(item);
+        });
+    } catch (error) {
+        console.error("Error loading saved comparisons:", error);
+
+        savedComparisonsStatus.textContent =
+            "Could not load saved comparisons. Please check that the server is running and try again.";
+
+        const retryButton = document.createElement("button");
+        retryButton.type = "button";
+        retryButton.className = "btn-outline";
+        retryButton.textContent = "Try Again";
+
+        retryButton.addEventListener("click", loadSavedComparisons);
+
+        savedComparisonsList.appendChild(retryButton);
+    }
+}
+
 });
