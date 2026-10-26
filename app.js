@@ -6,7 +6,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // 1. Frontend folder
-const publicDir = path.join(__dirname, "WST GROUP 19");
+const publicDir = path.join(
+  __dirname,
+  "WST-A3101-Group-19-main",
+  "WST GROUP 19"
+);
 
 // 2. Middleware, register before the routes
 app.use(express.json());
