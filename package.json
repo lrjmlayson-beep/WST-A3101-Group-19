@@ -1,0 +1,16 @@
+{
+  "name": "wst-a3101-group-19-main",
+  "version": "1.0.0",
+  "description": "**Home Choice** is a browser-based property sourcing and comparison application designed to help users find and evaluate rental properties based on their personal preferences and lifestyle needs.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}

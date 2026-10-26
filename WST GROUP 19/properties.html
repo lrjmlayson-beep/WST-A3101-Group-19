@@ -11,10 +11,10 @@
 
 
 <header class="site-header">
-  <div class="site-header__brand">
+  <a href="index.html" class="site-header__brand">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5a1 1 0 0 0 1 1H17.5a1 1 0 0 0 1-1V10"/></svg>
-    HOME CHOICE
-  </div>
+    <span>HOME CHOICE</span>
+  </a>
   <nav class="site-header__nav">
     <a href="#" id="navAgentsLink">Agents</a>
     <a href="properties.html" id="navPropertiesLink">Properties</a>
@@ -158,8 +158,8 @@
         <button type="button" class="compare-select-btn" id="selectSecondPropertyBtn" data-slot="2">
           Select Second property <span aria-hidden="true">+</span>
         </button>
-        <button type="button" class="swap-btn" id="swapPropertiesBtn" aria-label="Swap selected properties">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h11l-3-3M17 17H6l3 3"/></svg>
+        <button type="button" class="swap-btn" id="swapPropertiesBtn" aria-label="Swap selected properties"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M7 7h11l-3-3M17 17H6l3 3"/></svg>
         </button>
       </div>
     </div>
@@ -167,8 +167,7 @@
     <div class="property-list" id="propertyList">
 
      
-      <article class="property-card" data-property-id="dragon-tower">
-        <img class="property-card__photo" src="WST ICON/8949bfd32fcc6cfc8c7ad1938cbeb557_max_476x317.jpeg" alt="Photo of Dragon tower">
+      <article class="property-card" data-property-id="dragon-tower" data-property-type="studio"><img class="property-card__photo" src="WST ICON/8949bfd32fcc6cfc8c7ad1938cbeb557_max_476x317.jpeg" alt="Photo of Dragon tower">
         <div class="property-card__body">
           <h3 class="property-card__name">Property Name: Dragon tower</h3>
           <p class="property-card__location">Location: Quezon city, Metro Manila</p>
@@ -187,7 +186,7 @@
       </article>
 
   
-      <article class="property-card" data-property-id="likas-pinas">
+      <article class="property-card" data-property-id="likas-pinas" data-property-type="studio">
         <img class="property-card__photo" src="WST ICON/images.jfif" alt="Photo of Likas Pinas">
         <div class="property-card__body">
           <h3 class="property-card__name">Property Name: Likas Pinas</h3>
@@ -207,7 +206,7 @@
       </article>
 
     
-      <article class="property-card" data-property-id="greenview-building">
+      <article class="property-card" data-property-id="greenview-building" data-property-type="studio">
         <img class="property-card__photo" src="WST ICON/1-kitchen.webp" alt="Photo of GreenView Building">
         <div class="property-card__body">
           <h3 class="property-card__name">Property Name: GreenView Building</h3>
@@ -296,7 +295,7 @@
 
 <footer class="site-footer">
   <a href="#" id="footerAboutLink">About</a>
-  <a href="#" id="footerCustomerServiceLink">Costumer Service</a>
+  <a href="#" id="footerCustomerServiceLink">Customer Service</a>
   <a href="#" id="footerResourcesLink">Resources</a>
   <a href="#" id="footerHomeLoanLink">Home LOAN</a>
 </footer>
