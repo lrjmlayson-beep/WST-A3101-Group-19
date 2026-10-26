@@ -22,3 +22,20 @@ window.onload = function() {
         });
     }
 };
+// Function to validate user inputs before sending requests
+function validateInput(formData) {
+    if (!formData || Object.keys(formData).length === 0) {
+        console.warn("QA Check: Submitted data is empty.");
+        return false;
+    }
+    console.log("QA Check: Input validation passed.");
+    return true;
+}
+
+// Global error logger for QA testing
+window.addEventListener('error', (event) => {
+    console.error("Home Choice Runtime Error caught:", event.message);
+});
+git add script.js
+git commit -m "Add input validation and error logging for QA testing"
+git push origin main
