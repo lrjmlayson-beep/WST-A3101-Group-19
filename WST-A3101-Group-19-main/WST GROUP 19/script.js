@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
       aircon: "Available",
       wifi: "Available",
       furnished: "Semi-furnished",
-      commute: "2.3km from work",
+      commute: "2.2km from work",
       establishments: "Laundry Shop, Grocery, Cafe",
       agentName: "Maria Santos",
       agentEmail: "likaspinas@email.com",
