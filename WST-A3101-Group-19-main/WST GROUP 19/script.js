@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         if (detailCompareBtn) {
-          detailCompareBtn.dataset.propertyId = propId;node
+          detailCompareBtn.dataset.propertyId = propId;
         }
 
       const nameEl = card.querySelector(".property-card__name");
