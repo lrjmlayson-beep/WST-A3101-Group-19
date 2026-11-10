@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function applyPropertyFilters() {
     const locationInput = document.getElementById("locationInput");
     const typeSelect = document.getElementById("propertyTypeSelect");
-    const priceSelect = document.getElementById("heroPriceRangeSelect");
+    const priceSelect = document.getElementById("PriceRangeSelect");
 
     const location = locationInput
       ? locationInput.value.trim().toLowerCase()
@@ -258,7 +258,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Apply the homepage price filter only if a matching select exists
   // on the Properties page.
   if (queryParams.has("priceRange")) {
-    const priceSelect = document.getElementById("heroPriceRangeSelect");
+    const priceSelect = document.getElementById("PriceRangeSelect");
 
     if (priceSelect) {
       priceSelect.value = queryParams.get("priceRange");
